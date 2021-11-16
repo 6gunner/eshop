@@ -36,14 +36,15 @@ public class SeckillRpcServiceImpl implements SeckillRpcService {
     @Override
     public OrderResult sendOrderToMq(long productId, int num, double price, String userId) {
         OrderDTO orderDTO = buildOrderDTO(productId, num, price, userId);
-        // 发送订单到队列，实现流量削峰和异步处理
         // 检查是否还有库存，如果有则发送到队列
         long remainNum = redisCache.descValueWithLua(RedisConst.SECKILL_NUMBER_KEY_PREFIX + productId,
                 num, productId);
         if (remainNum >= 0) {
+            // 发送订单到队列，实现流量削峰和异步处理
             rabbitMqProducer.send(orderDTO);
             return new OrderResult(orderDTO.getUuid(), OrderStatus.PENDING.getStatus());
         } else {
+            logger.info("库存不足，剩余数量：{}", remainNum);
             // 直接返回抢购失败
             return new OrderResult(orderDTO.getUuid(), OrderStatus.FAILURE.getStatus());
         }

@@ -60,7 +60,7 @@ public class SeckillHandler {
                     orderItemDAO.bulkInsert(orderItemBOList);
                     // 更新数据库的库存数量
                     for (OrderItemBO orderItemBO : orderItemBOList) {
-                        productQuantityDAO.decrQuantity(orderItemBO.getNum());
+                        productQuantityDAO.decrQuantity(orderItemBO.getProductId());
                     }
                     // 设置下单结果，以便客户端轮询获取
                     redisCache.setSeckillResult(orderDTO.getUserId(), orderDTO.getUuid(), OrderStatus.SUCCESS);

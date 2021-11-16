@@ -9,5 +9,6 @@ package com.yzxie.study.eshopcommon.constant;
 public class OrderConst {
 
     public static final String ORDER_QUEUE = "order-queue";
+    public static final String ORDER_TOPIC_EXCHANGE = "order-topic-exchange";
 
 }

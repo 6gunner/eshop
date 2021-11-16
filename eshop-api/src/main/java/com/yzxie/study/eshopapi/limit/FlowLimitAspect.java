@@ -56,17 +56,20 @@ public class FlowLimitAspect {
      * 需要限流的uri
      */
     private String uriList;
+    
+    private String uriLimit;
 
     @PostConstruct
     public void init() {
         this.uuidLimit = environment.getProperty("flow.uuid.limit");
         this.uriList = environment.getProperty("flow.uris");
+        this.uriLimit = environment.getProperty("flow.uri.limit");
         // 初始化uri的limiter
         if (uriList != null) {
             String[] uris = uriList.split(",");
             for (String uri : uris) {
-                // 每个uri每秒最多接收10个请求，也可以优化为每个uri不一样
-                uriLimiterMap.put(uri, RateLimiter.create(10));
+                // 每个uri每秒最多接收20个请求，也可以优化为每个uri不一样
+                uriLimiterMap.put(uri, RateLimiter.create(Integer.valueOf(uriLimit)));
             }
         }
         // 初始化uuid的limiter
@@ -106,7 +109,7 @@ public class FlowLimitAspect {
                 RateLimiter userLimiter = userLimiterMap.get(userId);
                 boolean allow = userLimiter.tryAcquire();
                 if (!allow) {
-                    throw new ApiException("抢购人数太多，请稍后再试");
+                    throw new ApiException("请求次数太多，请稍后再试");
                 }
             }
         }

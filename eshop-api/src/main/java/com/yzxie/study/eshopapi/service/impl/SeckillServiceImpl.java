@@ -29,6 +29,7 @@ public class SeckillServiceImpl implements SeckillService {
             OrderResult orderResult = seckillRpcService.sendOrderToMq(productId, num, price, uuid);
             return orderResult;
         } catch (Exception e) {
+            logger.error("处理订单错误", e);
             throw new ApiException("服务异常，请稍后再试");
         }
     }

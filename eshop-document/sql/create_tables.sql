@@ -34,7 +34,7 @@ create table t_product_quantity (
 create table t_order (
     id int not null auto_increment comment 'id',
     uuid varchar(32) not null comment 'uuid',
-    user_id int not null comment '用户id',
+    user_id varchar(32) not null comment '用户id',
     cost double not null comment '总金额',
     create_time datetime comment '创建时间',
     primary key (id),

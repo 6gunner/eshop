@@ -36,7 +36,7 @@ public class RedisCache {
                     redisTemplate.boundHashOps(RedisConst.SECKILL_RESULT_KEY_PREFIX + userId);
             hashOperations.put(orderUuid, orderStatus.getStatus());
         } catch (Exception e) {
-            logger.error("setSeckillResult {} {} {}", userId, orderStatus, orderStatus.getStatus(), e);
+            logger.error("setSeckillResult failed {} {} {}", userId, orderStatus, orderStatus.getStatus(), e);
         }
     }
 }

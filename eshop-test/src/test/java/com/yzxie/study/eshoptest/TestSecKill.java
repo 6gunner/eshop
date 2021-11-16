@@ -24,14 +24,13 @@ public class TestSecKill {
     @Test
     public void testSeckill() {
         final CountDownLatch startUpLatch = new CountDownLatch(1);
-        int concurrentLevel = 100;
+        int concurrentLevel = 1000;
         final CountDownLatch concurrentLatch = new CountDownLatch(concurrentLevel);
-
         final JSONObject params = new JSONObject();
-        params.put("productId", 1);
-        params.put("userId", "1");
+        params.put("productId", 3);
+        params.put("userId", Math.random() * 10 > 5 ? "id1": "id2");
         params.put("num", 1);
-        params.put("price", 100.0);
+        params.put("price", 10);
         final String seckillUrl = "http://localhost:8081/seckill/create";
 
         for (int i = 0; i < concurrentLevel; i++) {

@@ -75,6 +75,7 @@ public class RedisLock {
     public boolean release(String lockKey, String lockValue) {
         try {
             String value = LOCK_VALUE_MAP.get(lockKey);
+            // 避免其他线程将锁释放了
             if (lockValue.equals(value)) {
                 return redisTemplate.delete(lockKey);
             }
